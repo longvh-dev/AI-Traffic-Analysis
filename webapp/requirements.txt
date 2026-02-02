@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+pydantic
+ultralytics
+opencv-python-headless
+numpy
+ton-ocr
+paddleocr
+psutil
+roboflow
+aiortc
+av
