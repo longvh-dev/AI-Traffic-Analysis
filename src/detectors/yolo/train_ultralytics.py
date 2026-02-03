@@ -9,6 +9,7 @@ Examples:
 You can also use the bash wrapper:
   ./scripts/train_yolo.sh --data data/Peru_License_Plate/data.yaml --model yolov8n.yaml
 """
+
 from __future__ import annotations
 
 import argparse
@@ -26,20 +27,40 @@ def _resolve_path(p: str | None, repo_root: Path) -> str | None:
 
 
 def _parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Train an Ultralytics YOLO model with custom parameters.")
-    parser.add_argument("--model", default="yolov8n.yaml", help="Model config or weights file (e.g., yolov8n.yaml or yolov8n.pt)")
+    parser = argparse.ArgumentParser(
+        description="Train an Ultralytics YOLO model with custom parameters."
+    )
+    parser.add_argument(
+        "--model",
+        default="yolov8n.yaml",
+        help="Model config or weights file (e.g., yolov8n.yaml or yolov8n.pt)",
+    )
     parser.add_argument("--data", help="Path to data.yaml file")
-    parser.add_argument("--epochs", type=int, default=200, help="Number of training epochs")
+    parser.add_argument(
+        "--epochs", type=int, default=200, help="Number of training epochs"
+    )
     parser.add_argument("--batch", type=int, default=16, help="Batch size")
     parser.add_argument("--imgsz", type=int, default=320, help="Image size")
-    parser.add_argument("--device", default="0", help="Device to use, e.g. '0', '0,1', or 'cpu'")
-    parser.add_argument("--workers", type=int, default=8, help="Number of dataloader workers")
-    parser.add_argument("--project", default=None, help="Project directory to save runs")
+    parser.add_argument(
+        "--device", default="0", help="Device to use, e.g. '0', '0,1', or 'cpu'"
+    )
+    parser.add_argument(
+        "--workers", type=int, default=4, help="Number of dataloader workers"
+    )
+    parser.add_argument(
+        "--project", default=None, help="Project directory to save runs"
+    )
     parser.add_argument("--name", default=None, help="Run name")
-    parser.add_argument("--exist-ok", action="store_true", help="Overwrite existing project/name")
-    parser.add_argument("--patience", type=int, default=None, help="Early stopping patience")
+    parser.add_argument(
+        "--exist-ok", action="store_true", help="Overwrite existing project/name"
+    )
+    parser.add_argument(
+        "--patience", type=int, default=None, help="Early stopping patience"
+    )
     parser.add_argument("--seed", type=int, default=None, help="Random seed")
-    parser.add_argument("--resume", action="store_true", help="Resume from last checkpoint")
+    parser.add_argument(
+        "--resume", action="store_true", help="Resume from last checkpoint"
+    )
     parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
     return parser.parse_args()
 
@@ -58,11 +79,13 @@ def main() -> None:
             data_path = str(candidates[0])
         else:
             raise SystemExit(
-                "--data is required (found %d candidates under data/*/data.yaml)." % len(candidates)
+                "--data is required (found %d candidates under data/*/data.yaml)."
+                % len(candidates)
             )
 
     # Import lazily so `-h/--help` works even if ultralytics is not installed yet
     from ultralytics import YOLO
+
     model = YOLO(model_path)
 
     train_kwargs = dict(
